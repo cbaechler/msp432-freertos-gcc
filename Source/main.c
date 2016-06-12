@@ -26,25 +26,18 @@ int main(void) {
 }
 
 static void prvSetupHardware(void) {
-	// Stop Watch Dog Timer
-	MAP_WDT_A_holdTimer();
-
-	// Enable Floating Point Unit
-	FPU_enableModule();
-
-	// Setup UART Peripheral Pins
-	MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
-
 	// Setup LED Pin
 	MAP_GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN0);
 	MAP_GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN0);
+
+	// Setup UART Peripheral Pins
+	MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
 }
 
 static void prvConfigureClocks(void) {
-	// Set Core Clock to 48 MHz
-	CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_48);
-	CS_initClockSignal(CS_HSMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
-	CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
-	CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
-	CS_initClockSignal(CS_ACLK, CS_REFOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+	// Set Core Clock to 24 MHz
+	FlashCtl_setWaitState(FLASH_BANK0, 2);
+    FlashCtl_setWaitState(FLASH_BANK1, 2);
+    MAP_PCM_setCoreVoltageLevel(PCM_VCORE1);
+    CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_24);
 }

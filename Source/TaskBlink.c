@@ -6,6 +6,6 @@
 void vBlink(void* pvParameters) {
 	while(1) {
 		vTaskDelay(250);
-		GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
+		MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
 	}
 }
